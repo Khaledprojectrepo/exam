@@ -8,6 +8,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreFrontController;
 
+Route::fallback(function () {
+    return redirect()->route('login');
+});
 // =============================
 // 🔹 AUTH ROUTES (Shared Login)
 // =============================
@@ -52,9 +55,5 @@ Route::domain('{shop}.merchant.localhost')->group(function () {
     Route::get('/category/{category}', [StoreFrontController::class, 'product'])->name('front.product');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+
 require __DIR__.'/auth.php';     

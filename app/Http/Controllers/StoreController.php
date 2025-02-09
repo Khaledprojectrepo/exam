@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Store;
 use App\Models\Tenant;
-use App\Models\Domain;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\Store as StoreRequest; 
+use DB;
 class StoreController extends Controller
 {
     public function index(Request $request)
@@ -39,7 +39,7 @@ class StoreController extends Controller
        
      
             Tenant::create(['id' => $slug]);
-            Domain::create(['id' => $slug]);
+            DB::table('domains')->insert(['tenant_id'=>$slug,'domain'=>$slug]);
         
 
         return redirect()->route('merchant.store.list')->with('success', 'Store created successfully!');
